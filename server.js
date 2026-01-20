@@ -13,7 +13,7 @@ app.use('/api/users', authRoutes);
 
 
 app.get('/', (req, res) => {
-    res.send({ message: 'APA Backend running!' });
+    res.send({ message: 'APA Backend running from MAIN branch!' });
 });
 
 connectDB();
