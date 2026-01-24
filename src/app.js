@@ -36,7 +36,7 @@ function processXlsxFile() {
         //convert to an array of json objects
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-        console.log(jsonData);
+        // console.log(jsonData);
 
         // return `this is the xlsx: ${jsonData}`;
         return jsonData;
@@ -48,9 +48,27 @@ function processXlsxFile() {
     }
 }
 
+
+
+//process json file as a result, and return .txt
+function txtFile (jsonData) {
+
+    let textChainformat = '';
+    const accountsToProcess = [];
+
+    jsonData.forEach(item => {
+        textChainformat = `${item['Recaudadora']},${item['Tipo']},${item['Cuenta']},N,,,,4,1,${item['Fecha de otorgamiento']},,H,N,0,${item['Recamaras']},${item['Banios']}}`;
+
+        accountsToProcess.push(textChainformat);
+    });
+    return accountsToProcess;
+}
+
 app.get('/process-xlsx', (req, res) => {
-    const result = processXlsxFile();
-    res.send({ message: `result: ${result}`});
+    const jsonData = processXlsxFile();
+    txtFile(jsonData);
+
+    res.send(txtFile(jsonData));
 });
 
 
