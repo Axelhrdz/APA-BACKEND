@@ -4,14 +4,14 @@ const aperturasMasivasController = async (req, res) => {
     try {
         const serviceResponse = await aperturasMasivasService(req);
         console.log('Data received from controller Aperturas Masivas', serviceResponse);
-        res.status(200).send({
-            message: 'Data received from backend',
-            data: serviceResponse
+
+        res.set({
+            'Content-Disposition': 'attachment; filename=output.txt',
+            'Content-Type': 'text/plain',
+            'Content-Length': serviceResponse.length,
         });
-        
-        return serviceResponse;
 
-
+        res.send(serviceResponse);
     } catch (error) {
         console.error('Error en controlador aperturas masivas', error);
         res.status(500).send({
