@@ -56,7 +56,7 @@ const apaAccessService = async (txtFileOutput, formData, url, timeout = 5000) =>
 
         //find "Seleccionar archivo" input, name="archivo" (it's on the popup, not the original page)
         const selectFile = page.locator('input[name="archivo"]');
-        await selectFile.waitFor({ state: 'visible', timeout: 2000 });
+        await selectFile.waitFor({ state: 'visible', timeout: 10000 });
         //log file input value
         console.log(await selectFile.inputValue());
 
