@@ -1,39 +1,14 @@
-import * as XLSX from 'xlsx';
 import { apaAccessService } from './aperturasMasivas.playwright.service.js';
-// import { body, validationResult } from 'express-validator';
+import { baldioToggle } from '../../utils/helpers.js';
 import dotenv from 'dotenv';
 
 
 dotenv.config();
 
-const baldioToggle = (file, formData) => {
-    let sheetName;
-    const workbook = XLSX.read(file.data, {type: 'buffer'});
-
-    if(formData['baldio'] === 'S') {
-        sheetName = workbook.SheetNames[1];
-    } else if(formData['baldio'] === 'N') {
-        sheetName = workbook.SheetNames[0];
-    } else {
-        return {
-            message: 'Error in baldioToggle',
-            error: 'Baldio is not selected',
-            status: 400
-        }
-    }
-    
-    const worksheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);
-    // console.log(jsonData);
-
-    return jsonData;
-};
-
-
 const defineAperturas = (jsonData, formData) => {
 
-    console.log(jsonData);
-    console.log(formData);
+    // console.log(jsonData);
+    // console.log(formData);
     
 
 
@@ -82,6 +57,10 @@ const aperturasMasivasService = async (req) => {
 
     try {
         const jsonData = baldioToggle(file, formData);
+
+        if (jsonData?.status === 400) {
+            return jsonData;
+        }
 
         //txt file into variable
         const txtFileOutput = txtFile(jsonData, formData);

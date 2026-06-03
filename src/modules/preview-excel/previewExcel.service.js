@@ -1,20 +1,14 @@
-import * as XLSX from 'xlsx';
-// import baldioToggle from '../aperturasMasivas/aperturasMasivas.service.js';
 import { baldioToggle } from '../../utils/helpers.js';
 
-
-
-const ExcelandData = (req, baldioToggle = null) => {
+const ExcelandData = (req) => {
     const file = req.files.file;
     const formData = req.body;
 
-    const workbook = XLSX.read(file.data, {type: 'buffer'});
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    const jsonData = baldioToggle(file, formData);
 
-    // console.log(jsonData);
-    
+    if (jsonData?.status === 400) {
+        return jsonData;
+    }
 
     return {
         jsonData: jsonData,
@@ -27,12 +21,16 @@ const ExcelandData = (req, baldioToggle = null) => {
 const previewExcelService = async (req) => {
     try {
         // console.log('sucess from preview excel service');
-        const jsonData = ExcelandData(req);
-        console.log(jsonData);
+        const result = ExcelandData(req);
+        console.log(result);
+
+        if (result.status === 400) {
+            return result;
+        }
 
         return {
             message: 'Sucess from preview excel service',
-            jsonData: jsonData,
+            jsonData: result,
             status: 200
         };
 
