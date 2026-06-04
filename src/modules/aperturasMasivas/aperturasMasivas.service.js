@@ -65,12 +65,12 @@ const aperturasMasivasService = async (req) => {
         //txt file into variable
         const txtFileOutput = txtFile(jsonData, formData);
 
-        // const aperturasAPAOutput = await aperturasMasivasPlaywright(txtFileOutput, 'http://services.tlajomulco.gob.mx:1080/apa/');
+        // const aperturasAPAOutput = await aperturasMasivasPlaywright(txtFileOutput, 'https://apa.tlajomulco.gob.mx/');
 
         const urlAccess = await apaAccessService(
             txtFileOutput, 
             formData, 
-            // 'http://services.tlajomulco.gob.mx:1080/apa/',
+            // 'https://apa.tlajomulco.gob.mx/',
             // 'http://172.16.11.58/apa/',
             process.env.APA_BASE_URL
         );

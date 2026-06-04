@@ -4,6 +4,9 @@ const ExcelandData = (req) => {
     const file = req.files.file;
     const formData = req.body;
 
+    console.log('Preview Excel - formData received:', formData);
+    console.log('Preview Excel - baldio value:', formData['baldio']);
+
     const jsonData = baldioToggle(file, formData);
 
     if (jsonData?.status === 400) {

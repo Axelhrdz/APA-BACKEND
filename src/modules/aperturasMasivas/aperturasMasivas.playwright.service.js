@@ -46,7 +46,11 @@ const apaAccessService = async (txtFileOutput, formData, url, timeout = 5000) =>
 
         await username.fill(process.env.APA_USERNAME);
         await password.fill(process.env.APA_PASSWORD);
-        await submit.click();
+        
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 }),
+            submit.click()
+        ]);
 
 
         //go to aperturas masivas page
