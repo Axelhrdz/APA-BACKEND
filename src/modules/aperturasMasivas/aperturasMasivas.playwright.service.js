@@ -46,7 +46,11 @@ const apaAccessService = async (txtFileOutput, formData, url, timeout = 5000) =>
 
         await username.fill(process.env.APA_USERNAME);
         await password.fill(process.env.APA_PASSWORD);
-        await submit.click();
+        
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 }),
+            submit.click()
+        ]);
 
 
         //go to aperturas masivas page
@@ -56,7 +60,7 @@ const apaAccessService = async (txtFileOutput, formData, url, timeout = 5000) =>
 
         //find "Seleccionar archivo" input, name="archivo" (it's on the popup, not the original page)
         const selectFile = page.locator('input[name="archivo"]');
-        await selectFile.waitFor({ state: 'visible', timeout: 2000 });
+        await selectFile.waitFor({ state: 'visible', timeout: 10000 });
         //log file input value
         console.log(await selectFile.inputValue());
 
